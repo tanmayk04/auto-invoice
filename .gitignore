@@ -1,0 +1,12 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Inputs / outputs
+input/
+output/
+
+# OS / editor
+.DS_Store
+.vscode/
