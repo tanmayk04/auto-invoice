@@ -294,6 +294,14 @@ def draw_invoice(pdf_path: str, data: dict):
         c.drawString(table_x + 8, y_text, line)
         y_text -= 12
 
+    # Month label (previous month derived from Invoice Date)
+    month_label = str(data.get("Month Label", "")).strip()
+    if month_label:
+        c.setFont(FONT_REG, FS_VALUE)
+        c.setFillColor(colors.black)
+        c.drawString(table_x + 8, y_text, month_label)
+        c.setFillColor(colors.black)
+
     amt_y = table_top - row_h - (item_row_h / 2) + 5
     c.setFont(FONT_REG, FS_VALUE)
     c.drawRightString(
