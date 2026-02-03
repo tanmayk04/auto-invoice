@@ -54,6 +54,20 @@ def _fmt_number_string(v) -> str:
         return str(v).strip()
 
 
+def _prev_month_label(invoice_date) -> str:
+        """
+        From invoice_date (any format pandas can parse), return:
+        'Month - Jan - 2026' (previous month)
+        """
+        if pd.isna(invoice_date):
+            return ""
+        dt = pd.to_datetime(invoice_date)
+
+        # Go to last day of previous month:
+        prev_last_day = dt.replace(day=1) - pd.Timedelta(days=1)
+
+        return f"Month - {prev_last_day.strftime('%b')} - {prev_last_day.strftime('%Y')}"
+
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
 
@@ -64,6 +78,8 @@ def main():
 
     for _, r in df.iterrows():
         row = r.to_dict()
+
+        row["Month Label"] = _prev_month_label(row.get("Invoice Date", ""))
 
         # Normalize / format fields expected by your template
         row["Invoice Date"] = _fmt_date(row.get("Invoice Date", ""))
